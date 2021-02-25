@@ -40,6 +40,7 @@ namespace Service
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // middleware registration before
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Remove(HeaderNames.Date);
@@ -57,6 +58,7 @@ namespace Service
                     context.Response.Headers.Remove(HeaderNames.Date);
                 }
             });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -75,6 +77,7 @@ namespace Service
                 endpoints.MapControllers();
             });
 
+            // middleware registration after
             app.Use(async (context, next) =>
             {
                 context.Response.Headers.Remove(HeaderNames.Date);
